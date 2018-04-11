@@ -26,7 +26,8 @@ def plot_net(g,gs_name,pval):
     pos=nx.fruchterman_reingold_layout(g)
     N = nx.number_of_nodes(g)
     labels = [str(u[0]) for u in g.nodes(data=True)]
-    d = g.degree().values()
+    # d = g.degree().values()
+    d =[i[1] for i in g.degree()]
 #     hover_text = ["%s <br> Pvalue: 10e-%f"%i for i in zip(labels,colors)]
     hover_text = ["%s <br> "%i for i in labels]
     
@@ -121,7 +122,8 @@ def trait_sim_graph():
     pos=nx.fruchterman_reingold_layout(g)
     N = nx.number_of_nodes(g)
     labels = [str(u[1]['name']) for u in g.nodes(data=True)]
-    d = g.degree().values()
+    d =[i[1] for i in g.degree()]
+    # d = g.degree().values()
 
     Xv=[pos['n'+str(k)][0] for k in range(N)]
     Yv=[pos['n'+str(k)][1] for k in range(N)]
