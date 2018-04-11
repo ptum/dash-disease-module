@@ -193,14 +193,14 @@ def trait_sim_graph():
 df =pd.read_csv(path_to_data+'SC1_sig_disease_modules_with_consensus_new_gwas_cat_04042018.txt')
 annotations = pd.read_csv(path_to_data+'annotationEnrichment_terms_sig_modules_05042018.txt',low_memory=False)
 
-graph_list= {}
-for f in os.listdir(path_to_data+'/networks/'):
-    if f.endswith('.txt'):
-        net= '_'.join(f.split('_')[:2])
-        g= nx.read_edgelist(path_to_data+'/networks/'+f,delimiter='\t',data=(('weight',float),))
-        graph_list[net] = g
+# graph_list= {}
+# for f in os.listdir(path_to_data+'/networks/'):
+#     if f.endswith('.txt'):
+#         net= '_'.join(f.split('_')[:2])
+#         g= nx.read_edgelist(path_to_data+'/networks/'+f,delimiter='\t',data=(('weight',float),))
+#         graph_list[net] = g
 
-# G3= nx.read_edgelist(path_to_data+'networks/3_signal_omnipath_directed.txt',delimiter='\t',data=(('weight',float),))
+G3= nx.read_edgelist(path_to_data+'networks/3_signal_omnipath_directed.txt',delimiter='\t',data=(('weight',float),))
 
 L = csv.reader(open(path_to_data+'SC1_sig_modules_with_consensus_23102017.txt','rU'),delimiter='\t')
 sig_modules= {}

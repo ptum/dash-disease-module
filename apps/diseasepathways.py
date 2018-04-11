@@ -15,8 +15,8 @@ import os
 d= 12
 x=df.iloc[d,[5,3,1]].tolist()
 selected_m = sig_modules[x[0]][x[1]][x[2]]
-sg2 = graph_list[x[1]].subgraph(selected_m)
-# sg2 = G3.subgraph(selected_m)
+# sg2 = graph_list[x[1]].subgraph(selected_m)
+sg2 = G3.subgraph(selected_m)
 FIGURE= plot_net(sg2, 'gs_name', 2)
 
 
@@ -107,9 +107,9 @@ def update_figure(rows, selected_row_indices):
     pval = dff['Pvalue'][0]
 #     return [{'label': i, 'value': i} for i in dff['traitGroup'].tolist()]
     selected_m = sig_modules[ind[0]][ind[1]][ind[2]]
-    sg= graph_list[ind[1]].subgraph(selected_m) # real beployment
-    print sg.number_of_edges()
-#     sg = G3.subgraph(selected_m)
+    # sg= graph_list[ind[1]].subgraph(selected_m) # real beployment
+    # print sg.number_of_edges()
+    sg = G3.subgraph(selected_m)
     gwas_name = df.iloc[d,:]['traitGroup']
     return plot_net(sg,gwas_name,pval)
 
