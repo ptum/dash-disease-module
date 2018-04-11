@@ -3,7 +3,7 @@ import dash_html_components as html
 import dash_table_experiments as dt
 from dash.dependencies import Input, Output
 import os
-from app import app
+from app import app,server
 from apps import overview,diseasepathways,enrichmentanalysis, contactus
 
 
@@ -60,7 +60,7 @@ for css in external_css:
 
 
 if __name__ == '__main__':
-#     port = int(os.environ.get('PORT', 5001))
-#     debug = os.environ.get('PRODUCTION') is None
-#     app.run_server(debug=debug, host='0.0.0.0', port=port)
-    app.run_server()
+    port = int(os.environ.get('PORT', 5001))
+    debug = os.environ.get('PRODUCTION') is None
+    app.run_server(debug=debug, host='0.0.0.0', port=port)
+    # app.run_server()
