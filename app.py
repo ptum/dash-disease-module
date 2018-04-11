@@ -221,7 +221,7 @@ for r in L:
 
 def get_logo():
     import base64
-    image_filename = 'banner_vis.jpg' # replace with your own image
+    image_filename = 'data/banner_vis.jpg' # replace with your own image
     encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
     logo = html.Div([
