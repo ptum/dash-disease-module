@@ -30,7 +30,7 @@ def display_page(pathname):
         return  diseasepathways.layout
     elif pathname == '/enrichment-analysis':
         return  enrichmentanalysis.layout
-    elif pathname == '/contact-us':
+    elif pathname == '/about':
         return  contactus.layout
     else:
         return noPage

@@ -259,7 +259,7 @@ def get_menu():
 
         dcc.Link('Enrichment Analysis   ', href='/enrichment-analysis', className="tab"),
         
-        dcc.Link('Contact us   ', href='/contact-us', className="tab")
+        dcc.Link('About   ', href='/about', className="tab")
 
         
 
