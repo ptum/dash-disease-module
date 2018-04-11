@@ -36,7 +36,7 @@ layout = html.Div([  # page 6
                         className="gs-header gs-text-header padded"),
                 html.Br([]),
                 html.P("If you have questions, comments or suggestions, we'd like to hear them @"),
-                html.P('Sarvenaz Choobdar(schoob...@gmail.com)'),
+                html.P('Sarvenaz Choobdar (firstname.lastname@unil.ch)'),
             ], className="row"),
             # Row 3
             html.Div([
