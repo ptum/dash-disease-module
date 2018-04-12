@@ -119,7 +119,7 @@ def plot_net(g,gs_name,pval):
 
 def trait_sim_graph():
     g = nx.read_graphml(path_to_data+'trait_similarity_network.graphml')
-    pos=nx.fruchterman_reingold_layout(g)
+    pos=nx.spring_layout(g,k=1.12)
     N = nx.number_of_nodes(g)
     labels = [str(u[1]['name']) for u in g.nodes(data=True)]
     d =[i[1] for i in g.degree()]
@@ -149,7 +149,7 @@ def trait_sim_graph():
                    marker=Marker(symbol='dot',
                                  size=[20+i for i in d], 
                                  color=d,
-                                colorscale='Viridis',
+                                colorscale='Jet',#Viridis',
                                  showscale=False,
                                  colorbar = dict(
                                             title = 'Number of modules',
