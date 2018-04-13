@@ -118,38 +118,40 @@ def plot_net(g,gs_name,pval):
 
 
 def trait_sim_graph():
-    g = nx.read_graphml(path_to_data+'trait_similarity_network.graphml')
-    pos=nx.spring_layout(g,k=1.12)
-    N = nx.number_of_nodes(g)
-    labels = [str(u[1]['name']) for u in g.nodes(data=True)]
-    d =[i[1] for i in g.degree()]
-    # d = g.degree().values()
+    g = nx.read_graphml(path_to_data+'trait_net_gephi_layout.graphml')
+    Xv=[]
+    Yv=[]
+    node_size=[]
+    labels=[]
+    node_color=[]
+    for u,node in g.nodes(data=True):
+        if g.degree(u)!=0:
+            Xv.append(node['x'])
+            Yv.append(node['y'])
+            node_size.append(node['size'])
+            labels.append(node['name'])
+            node_color.append('rgb('+','.join(map(str,[node['r'],node['g'],node['b']]))+')')
 
-    Xv=[pos['n'+str(k)][0] for k in range(N)]
-    Yv=[pos['n'+str(k)][1] for k in range(N)]
     Xed=[]
     Yed=[]
     for edge in nx.edges(g):
-        Xed+=[pos[edge[0]][0],pos[edge[1]][0], None]
-        Yed+=[pos[edge[0]][1],pos[edge[1]][1], None] 
-    
-    ### plotting setting
-
-    trace3=Scatter(x=Xed,
+        Xed+=[g.node[edge[0]]['x'],g.node[edge[1]]['x'], None]
+        Yed+=[g.node[edge[0]]['y'],g.node[edge[1]]['y'], None]
+    trace1=Scatter(x=Xed,
                    y=Yed,
                    mode='lines',
                    line=Line(color='rgb(210,210,210)', width=1),
                    hoverinfo='none'
                    )
 
-    trace4=Scatter(x=Xv,
+    trace2=Scatter(x=Xv,
                    y=Yv,
                    mode='markers',
                    name='net',
                    marker=Marker(symbol='dot',
-                                 size=[20+i for i in d], 
-                                 color=d,
-                                colorscale='Jet',#Viridis',
+                                 size=node_size, 
+                                 color=node_color,
+                                 colorscale=node_color,
                                  showscale=False,
                                  colorbar = dict(
                                             title = 'Number of modules',
@@ -186,7 +188,8 @@ def trait_sim_graph():
                 xaxis=XAxis(showgrid=False, zeroline=False, showticklabels=False),
                 yaxis=YAxis(showgrid=False, zeroline=False, showticklabels=False),
                 width= 450)
-    data1=Data([trace3, trace4])
+
+    data1=Data([trace1, trace2])
     fig1=Figure(data=data1, layout=layout)
     return fig1
 
