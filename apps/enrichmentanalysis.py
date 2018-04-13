@@ -33,7 +33,7 @@ def find_enriched_module(selected_m):
     mp.columns=['teamName','network','mid','intersection','Jaccard','pvalue']
     res = mp[mp.pvalue*mp.shape[0]<0.05]
     res['-log(p)'] = res.pvalue.apply(lambda x:round(-1*np.log10(x),1))
-    return res.sort_values('-log(p)',ascending=False)
+    return res.iloc[:,[1,3,4,6]].sort_values('-log(p)',ascending=False)
  
 
 

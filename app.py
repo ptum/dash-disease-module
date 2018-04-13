@@ -187,7 +187,8 @@ def trait_sim_graph():
                     x=0.005, y=-0.002 ) ],
                 xaxis=XAxis(showgrid=False, zeroline=False, showticklabels=False),
                 yaxis=YAxis(showgrid=False, zeroline=False, showticklabels=False),
-                width= 450)
+                width= 700,
+                height=700)
 
     data1=Data([trace1, trace2])
     fig1=Figure(data=data1, layout=layout)
@@ -281,7 +282,7 @@ def make_dash_table(df):
 
 def filter_data(selection):
     df_subset = df.loc[df['trait.simplified'].isin(selection)].sort_values(['pval','module_size']).reset_index()
-    return df_subset.rename(columns={'module_size':'Module Size','pval':'Pvalue','index':'Module ID','net':'Network'})
+    return df_subset.iloc[:,[6,3,4,2,0]].rename(columns={'module_size':'Module Size','pval':'Pvalue','gwas_name':'GWAS name','net':'Network','traitGroup':'Phenotype category'}).head()
 def filter_annotation(x):
     res = annotations[(annotations['teamName']==x[0])  & (annotations['net']==x[1]) & (annotations['mid']==x[2])].iloc[:,[2,5]]
     return res.rename({'pathwayDb':'Annotation DB','term':'Term'}).head()
