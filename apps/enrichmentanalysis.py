@@ -147,8 +147,8 @@ def update_anno_table_en(rows, selected_row_indices):
     [State('input-box', 'value')])
 def update_output(n_clicks, sample_value,input_value):
     if 's1'  in sample_value:
-        return 'The input gene list is \n"{}" '.format(['HIST2H2BD',  'HIST1H2BL',  'HIST2H2BC',  'HIST3H2BB',  'HIST2H2BE',  'HIST2H2BF',  'HIST1H2BK',  'HIST1H2BO',  'HIST1H2BH',  'HIST1H2BN'])
+        return 'The input gene list is \n\n"{}" '.format(['HIST2H2BD',  'HIST1H2BL',  'HIST2H2BC',  'HIST3H2BB',  'HIST2H2BE',  'HIST2H2BF',  'HIST1H2BK',  'HIST1H2BO',  'HIST1H2BH',  'HIST1H2BN'])
     if 's2'  in sample_value:
-        return 'The input gene list is \n"{}" '.format(['TJP2',  'RPL5',  'SUPT20H'])
+        return 'The input gene list is \n\n"{}" '.format(['TJP2',  'RPL5',  'SUPT20H'])
     if input_value is not None :
         return 'The input gene list is \n"{}" '.format(input_value)
