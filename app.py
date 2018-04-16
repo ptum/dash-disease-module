@@ -247,7 +247,7 @@ def get_header():
 
         html.Div([
             html.H5(
-                'Disease Pathways')
+                'Disease Modules')
         ], className="twelve columns padded")
 
     ], className="row gs-header gs-text-header")
@@ -259,7 +259,7 @@ def get_menu():
 
         dcc.Link('Overview   ', href='/overview', className="tab first"),
 
-        dcc.Link('Disease Pathways   ', href='/disease-pathways', className="tab"),
+        dcc.Link('Disease Modules   ', href='/disease-pathways', className="tab"),
 
         dcc.Link('Enrichment Analysis   ', href='/enrichment-analysis', className="tab"),
         

@@ -39,7 +39,7 @@ layout = html.Div([  # page 6
             # Row 2
             html.Div([
                 html.Div([
-                html.H6('Disease Pathways Network',
+                html.H6('Disease Modules Network',
                           className="gs-header gs-text-header padded"),
                 html.Br([]),
                 html.P('HOVER over nodes in the graph below to see the information about pathways related to the selected phenotype.'),
@@ -50,7 +50,7 @@ layout = html.Div([  # page 6
                 ), 
                 ], className='eight columns',style=dict(textAlign='center')),
                 html.Div([
-                html.H6('Pathway informations',
+                html.H6('Module informations',
                           className="gs-header gs-text-header padded"),
                 html.Br([]),
                 dcc.Graph(
