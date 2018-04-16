@@ -1,6 +1,11 @@
+.project
+.pydevproject
+ddm_app/
+old_scripts/
 *.pyc
 *.egg-info
 *.log
 .DS_Store
 .idea
 venv
+*.ipynb

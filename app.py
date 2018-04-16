@@ -282,7 +282,7 @@ def make_dash_table(df):
 
 def filter_data(selection):
     df_subset = df.loc[df['trait.simplified'].isin(selection)].sort_values(['pval','module_size']).reset_index()
-    return df_subset.iloc[:,[7,4,2,5,3,1]].rename(columns={'mid':'Module ID','module_size':'Module Size','pval':'Pvalue','gwas_name':'GWAS name','net':'Network','traitGroup':'Phenotype category'})
+    return df_subset.iloc[:,[7,4,6,2,5,3,1]].rename(columns={'mid':'Module ID','module_size':'Module Size','pval':'Pvalue','gwas_name':'GWAS name','net':'Network','traitGroup':'Phenotype category'})
 def filter_annotation(x):
     res = annotations[(annotations['teamName']==x[0])  & (annotations['net']==x[1]) & (annotations['mid']==x[2])].iloc[:,[2,5]]
     return res.rename({'pathwayDb':'Annotation DB','term':'Term'}).head()

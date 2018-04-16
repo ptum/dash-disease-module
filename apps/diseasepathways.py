@@ -96,34 +96,18 @@ def update_table(categories):
     [Input('datatable-traitModule', 'rows'),
      Input('datatable-traitModule', 'selected_row_indices')])
 def update_figure(rows, selected_row_indices):
-    dff = pd.DataFrame([rows[i] for i in selected_row_indices])
-    d =dff['Module ID']
-    print d
-    print selected_row_indices
-    print rows
-    print dff
-    ind=df.iloc[d,[5,3,1]].values.tolist()[0]
-    print ind
-    pval = dff['Pvalue'][0]
-#     return [{'label': i, 'value': i} for i in dff['traitGroup'].tolist()]
-    selected_m = sig_modules[ind[0]][ind[1]][ind[2]]
-    # sg= graph_list[ind[1]].subgraph(selected_m) # real beployment
-    # print sg.number_of_edges()
-    sg = G3.subgraph(selected_m)
-    gwas_name = df.iloc[d,:]['traitGroup']
-    return plot_net(sg,gwas_name,pval)
+    res =  rows[selected_row_indices[0]]
+    pval = ''#res['pvalue']
+    mm = sig_modules[res['teamName']][res['Network']][res['Module ID']]
+#     sg= graph_list[ind[1]].subgraph(selected_m)
+    sgg = G3.subgraph(mm)
+    return plot_net(sgg,res['Network'],pval)
 
 @app.callback(
     Output('datatable-annotationTerms', 'children'),
     [Input('datatable-traitModule', 'rows'),
      Input('datatable-traitModule', 'selected_row_indices')])
 def update_anno_table(rows, selected_row_indices):
-    dff = pd.DataFrame([rows[i] for i in selected_row_indices])
-    d =dff['Module ID']
-    print d
-    print selected_row_indices
-    print rows
-    print dff
-    ind=df.iloc[d,[5,3,1]].values.tolist()[0]
-    print ind
+    res =  rows[selected_row_indices[0]]
+    ind =[str(res['teamName']),str(res['Network']),int(res['Module ID'])]
     return make_dash_table(filter_annotation(ind))

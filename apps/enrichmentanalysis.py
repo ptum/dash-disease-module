@@ -7,7 +7,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_table_experiments as dt
 
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output,State
 from app import *
 
 def jaccard_overlap(m1,m2):
@@ -33,7 +33,7 @@ def find_enriched_module(selected_m):
     mp.columns=['teamName','network','mid','intersection','Jaccard','pvalue']
     res = mp[mp.pvalue*mp.shape[0]<0.05]
     res['-log(p)'] = res.pvalue.apply(lambda x:round(-1*np.log10(x),1))
-    return res.iloc[:,[1,3,4,6]].sort_values('-log(p)',ascending=False)
+    return res.sort_values('-log(p)',ascending=False)
  
 
 
@@ -56,11 +56,14 @@ layout = html.Div([  # page 6
                 html.P("Enter a list of gene symboles, comma seperated and press submit."),
                 dcc.Input(id='input-box', type='text'),
                 html.Button('Submit', id='button'),
+                dcc.Checklist(options=[{'label': 'Sample1', 'value': 's1'},{'label': 'Sample2', 'value': 's2'}], values=['s2'], labelStyle={'display': 'inline-block'},id='sample-item'),
             ], className="row"),
             # Row 2
             html.Div([
                 html.H6('List of disease modules that the input gene list is enriched in.',
                         className="gs-header gs-text-header padded"),
+                html.Div(id='output-container-button',
+                         ),
                 html.Br([]),
                 html.P("Select a module from list to visualize it."),
                 dt.DataTable(
@@ -97,39 +100,55 @@ layout = html.Div([  # page 6
 
 
 @app.callback(
-    dash.dependencies.Output('datatable-enrichedModules', 'rows'),
-    [dash.dependencies.Input('button', 'n_clicks')],
-    [dash.dependencies.State('input-box', 'value')])
-def update_enriched_modules(n_clicks, value):
+    Output('datatable-enrichedModules', 'rows'),
+    [Input('button', 'n_clicks'),
+     Input('sample-item','values')],
+    [State('input-box', 'value')])
+def update_enriched_modules(n_clicks, sample_value,input_value):
     import re
-    print  value
-    query_set = filter (lambda x:x!='' and x is not None,map(lambda x:re.sub('[^A-Za-z0-9]+', '',str(x)).upper(),value.split(',')))
-    print query_set
+    if 's1' in sample_value:
+        print 'Sample'
+        query_set=['HIST2H2BD',  'HIST1H2BL',  'HIST2H2BC',  'HIST3H2BB',  'HIST2H2BE',  'HIST2H2BF',  'HIST1H2BK',  'HIST1H2BO',  'HIST1H2BH',  'HIST1H2BN']
+    elif 's2' in sample_value:
+        query_set= ['TJP2',  'RPL5',  'SUPT20H']
+    else :
+        query_set = filter (lambda x:x!='' and x is not None,map(lambda x:re.sub('[^A-Za-z0-9]+', '',str(x)).upper(),input_value.split(',')))
+    
     return find_enriched_module(query_set).to_dict('records')
 
 
 @app.callback(
     Output('graph-traitModule-en', 'figure'),
     [Input('datatable-enrichedModules', 'rows'),
-     Input('datatable-enrichedModules', 'selected_row_indices')])
+     Input('datatable-enrichedModules', 'selected_row_indices')
+     ])
 def update_figure_enrichment(rows, selected_row_indices):
-    res = rows[0]
-    pval = res['pvalue']
-    selected_m = sig_modules[res['teamName']][res['network']][res['mid']]
+    res =  rows[selected_row_indices[0]]
+        
+    mm = sig_modules[res['teamName']][res['network']][res['mid']]
 #     sg= graph_list[ind[1]].subgraph(selected_m)
-    sg = G3.subgraph(selected_m)
-    return plot_net(sg,res['network'],pval)
+    pval = ''#res['pvalue']
+    sgg = G3.subgraph(mm)
+    return plot_net(sgg,res['network'],pval)
 
 @app.callback(
     Output('datatable-annotationTerms-en', 'children'),
     [Input('datatable-enrichedModules', 'rows'),
      Input('datatable-enrichedModules', 'selected_row_indices')])
 def update_anno_table_en(rows, selected_row_indices):
-    import re
-    res = rows[0]
+    res =  rows[selected_row_indices[0]]
     ind =[str(res['teamName']),str(res['network']),int(res['mid'])]
-    print res
-    print selected_row_indices
-    print ind
-    print filter_annotation(ind)
     return make_dash_table(filter_annotation(ind))
+
+@app.callback(
+    Output('output-container-button', 'children'),
+    [Input('button', 'n_clicks'),
+     Input('sample-item','values')],
+    [State('input-box', 'value')])
+def update_output(n_clicks, sample_value,input_value):
+    if 's1'  in sample_value:
+        return 'The input gene list is \n"{}" '.format(['HIST2H2BD',  'HIST1H2BL',  'HIST2H2BC',  'HIST3H2BB',  'HIST2H2BE',  'HIST2H2BF',  'HIST1H2BK',  'HIST1H2BO',  'HIST1H2BH',  'HIST1H2BN'])
+    if 's2'  in sample_value:
+        return 'The input gene list is \n"{}" '.format(['TJP2',  'RPL5',  'SUPT20H'])
+    if input_value is not None :
+        return 'The input gene list is \n"{}" '.format(input_value)
