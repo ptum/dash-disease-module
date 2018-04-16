@@ -281,7 +281,7 @@ def make_dash_table(df):
     return table
 
 def filter_data(selection):
-    df_subset = df.loc[df['trait.simplified'].isin(selection)].sort_values(['pval','module_size']).reset_index()
+    df_subset = df.loc[(df['trait.simplified'].isin(selection)) & (df['net']=='3_signal')].sort_values(['pval','module_size']).reset_index()
     return df_subset.iloc[:,[7,4,6,2,5,3,1]].rename(columns={'mid':'Module ID','module_size':'Module Size','pval':'Pvalue','gwas_name':'GWAS name','net':'Network','traitGroup':'Phenotype category'})
 def filter_annotation(x):
     res = annotations[(annotations['teamName']==x[0])  & (annotations['net']==x[1]) & (annotations['mid']==x[2])].iloc[:,[2,5]]
